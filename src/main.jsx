@@ -17,13 +17,13 @@ import { CookiesProvider } from "react-cookie";
 
 // setting configuration for http connect for Query and Mutation
 const httpLink = new HttpLink({
-  uri: "https://elemente-backend.up.railway.app/graphql", //backend link, check backend console for link
+  uri: "https://elemente-backend.up.railway.app/graphql", //backend link,e. check backend console for link
 });
 
 // setting configuration for websocket connect for subscription
 const wsLink = new GraphQLWsLink(
   createClient({
-    url: "ws://elemente-backend.up.railway.app/graphql", // backend link, check backend console for link
+    url: "wss://elemente-backend.up.railway.app/graphql", // backend link, check backend console for link
   }),
 );
 
