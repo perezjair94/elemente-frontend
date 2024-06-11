@@ -16,11 +16,13 @@ import { getMainDefinition } from "@apollo/client/utilities";
 import { CookiesProvider } from "react-cookie";
 
 // setting configuration for http connect for Query and Mutation
+// You can use http://localhost:3000/graphql for local development
 const httpLink = new HttpLink({
   uri: "https://elemente-backend.up.railway.app/graphql", //backend link,e. check backend console for link
 });
 
 // setting configuration for websocket connect for subscription
+// You can use http://localhost:3000/graphql for local development
 const wsLink = new GraphQLWsLink(
   createClient({
     url: "wss://elemente-backend.up.railway.app/graphql", // backend link, check backend console for link

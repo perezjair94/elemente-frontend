@@ -8,6 +8,7 @@ import {
 import Home from "./home";
 import Messages from "./messages";
 
+// Creare router for routing
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/">

@@ -2,6 +2,7 @@ import { gql, useMutation } from "@apollo/client";
 import { useCookies } from "react-cookie";
 import { useParams } from "react-router-dom";
 
+// GraphQL mutation for creating a new message
 const ADD_MESSAGE = gql`
   mutation CreateMessage($createMessageInput: CreateMessageInput!) {
     createMessage(createMessageInput: $createMessageInput) {
@@ -24,6 +25,7 @@ export default function MessageForm() {
     const formData = new FormData(e.target);
     const content = formData.get("content");
 
+    // create a new message
     await addMessage({
       variables: {
         createMessageInput: {

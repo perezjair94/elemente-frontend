@@ -13,9 +13,9 @@ export default function RoomForm() {
     const email = formData.get("email");
     const room = formData.get("room");
 
-    setCookie("email", email);
+    setCookie("email", email); // save email in cookie
 
-    if (room) return navigate(`/messages/${room}`);
+    if (room) return navigate(`/messages/${room}`); // redirect to messages page
 
     e.target.reset();
   };

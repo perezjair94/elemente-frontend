@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useParams, useRevalidator } from "react-router-dom";
 
+// GraphQL queries and subscriptions for messages
 const GET_MESSAGES = gql`
   query MessagesByRoom($room: String!) {
     messagesByRoom(room: $room) {
@@ -14,6 +15,7 @@ const GET_MESSAGES = gql`
   }
 `;
 
+// GraphQL subscription for new messages
 const MESSAGE_SUSCRIPTION = gql`
   subscription OnMessageAdded($room: String!) {
     messageAdded(room: $room) {
@@ -30,7 +32,7 @@ export default function Messages() {
   const [cookies] = useCookies();
   let revalidator = useRevalidator();
 
-  const { data } = useQuery(GET_MESSAGES, { variables: { room } });
+  const { data } = useQuery(GET_MESSAGES, { variables: { room } }); // get messages from room
 
   useEffect(() => {
     if (data?.messagesByRoom && data?.messagesByRoom.length > 0) {
@@ -41,15 +43,18 @@ export default function Messages() {
   useSubscription(MESSAGE_SUSCRIPTION, {
     onData: ({ data }) => {
       const contianer = document.getElementById("container");
+
       const message = data.data.messageAdded;
       setMessages([...messages, message]);
-      revalidator.revalidate();
+
+      revalidator.revalidate(); // revalidate the page to update the view
+
       setTimeout(() => {
         contianer.scrollTop = contianer.scrollHeight;
-      }, 100);
+      }, 100); // scroll to bottom of container
     },
     variables: { room },
-  });
+  }); // subscribe to new messages
 
   return (
     <>

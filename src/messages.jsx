@@ -1,6 +1,7 @@
 import Messages from "./ui/messages/cards";
 import MessageForm from "./ui/messages/create-form";
 
+// Messages page for viewing and creating messages
 export default function MessagesPage() {
   return (
     <main>
