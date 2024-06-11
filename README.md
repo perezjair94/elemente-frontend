@@ -1,5 +1,5 @@
 # Elemente.ai Test
-How to start, to enter a room you need a slug and email, e.g. **room-test-slug** and your@email.com then it redirects you to a message page where you can write any message e.g. **“This challenge is amazing 🤩”**.
+How to start, to enter a room you need a slug can be any text in this format e.g. **room-test-slug**  and email e.g your@email.com then it redirects you to a message page where you can write any message e.g. **“This challenge is amazing 🤩”**.
 
 - [Live demo](https://elemente-frontend.vercel.app)
 
