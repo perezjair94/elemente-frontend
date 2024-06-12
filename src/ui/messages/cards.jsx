@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useParams, useRevalidator } from "react-router-dom";
+import Swal from "sweetalert2";
 
 // GraphQL queries and subscriptions for messages
 const GET_MESSAGES = gql`
@@ -29,10 +30,11 @@ const MESSAGE_SUSCRIPTION = gql`
 export default function Messages() {
   const { room } = useParams();
   const [messages, setMessages] = useState([]);
-  const [cookies] = useCookies();
+  const [cookies] = useCookies(["email"]);
   let revalidator = useRevalidator();
+  const sender = cookies?.email;
 
-  const { data } = useQuery(GET_MESSAGES, { variables: { room } }); // get messages from room
+  const { data, loading } = useQuery(GET_MESSAGES, { variables: { room } }); // get messages from room
 
   useEffect(() => {
     if (data?.messagesByRoom && data?.messagesByRoom.length > 0) {
@@ -56,6 +58,12 @@ export default function Messages() {
     variables: { room },
   }); // subscribe to new messages
 
+  if (!sender && !loading)
+    Swal.fire({
+      icon: "error",
+      title: "Please sign in to create a message",
+    });
+
   return (
     <>
       {messages?.map((message) => (
@@ -63,12 +71,12 @@ export default function Messages() {
           key={message._id}
           className={clsx(
             "p-4 self-start max-w-[80%] rounded-xl",
-            message.sender === cookies.email
+            message.sender === sender
               ? "bg-green-500 text-white ml-auto"
               : "bg-neutral-200 dark:bg-neutral-200/5",
           )}
         >
-          {message.sender !== cookies.email && (
+          {message.sender !== sender && (
             <p className="text-sm text-neutral-500 dark:text-neutral-400">
               {message.sender}
             </p>

@@ -1,6 +1,7 @@
 import { gql, useMutation } from "@apollo/client";
 import { useCookies } from "react-cookie";
 import { useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 // GraphQL mutation for creating a new message
 const ADD_MESSAGE = gql`
@@ -17,6 +18,7 @@ const ADD_MESSAGE = gql`
 export default function MessageForm() {
   const { room } = useParams();
   const [cookies] = useCookies();
+  const sender = cookies?.email;
 
   const [addMessage, { loading, error }] = useMutation(ADD_MESSAGE);
 
@@ -24,6 +26,15 @@ export default function MessageForm() {
     e.preventDefault();
     const formData = new FormData(e.target);
     const content = formData.get("content");
+
+    if (!sender)
+      return Swal.fire({
+        icon: "error",
+        title: "Please sign in to create a message",
+      });
+
+    if (!content)
+      return Swal.fire({ icon: "error", title: "Please enter a message" });
 
     // create a new message
     await addMessage({
@@ -48,7 +59,6 @@ export default function MessageForm() {
           placeholder="Type a message"
           autoComplete="off"
           className="w-full p-2 rounded-md dark:bg-neutral-200/5 border border-neutral-400 dark:border-neutral-200/10"
-          required
         />
         <button
           className="p-2 rounded-md bg-green-500 text-white disabled:bg-neutral-400 disabled:text-neutral-500 dark:bg-green-600"
